@@ -16,7 +16,7 @@ In the `data` folder, the file `candidates.xlsx` contains data from the **Job Ca
 |-----------------------------|-----------------------------------------------------------
 | sessionid                   | Session number   
 | participant                 | Unique participant identifier   
-| participant.time_started    | Starting date and time of experiment for participant
+| time_started                | Starting date and time of experiment for participant
 | generalknowledge            | Total score in the knowledge task
 | wordpuzzles                 | Total score in the word task                           
 | matrices                    | Total score in the logic task                           
