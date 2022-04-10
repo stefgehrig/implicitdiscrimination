@@ -1,9 +1,3 @@
-<style>
-td {
-  font-size: 12px
-}
-</style>
-
 # implicitdiscrimination
 This repository contains raw data and all analysis code for the article *Explicit and Implicit Belief-Based Gender Discrimination: A Hiring Experiment*.
 
@@ -14,8 +8,6 @@ R scripts to reproduce all analyses that are presented in the article can be fou
 ## Data
 
 In the `data` folder, the file `candidates.xlsx` contains data from the **Job Candidate Assessment**, while the file `hiring.xlsx` contains data from the **Hiring Experiment**. The tables below explain all variables. 
-\
-\
 
 #### Data dictionary `candidates.xlsx`
 
@@ -34,7 +26,6 @@ In the `data` folder, the file `candidates.xlsx` contains data from the **Job Ca
 | estimate_matrices           | Belief about performance of men in logic task (% won by man vs. woman)
 | belief_matrices             | Belief about others' belief about performance of men in logic task (average % won by man vs. woman)
 | payofftotal                 | Participant's total realized payoff including show-up fee (Euro)
-\
 
 #### Data dictionary `hiring.xlsx`
 
@@ -103,6 +94,5 @@ time6                         | Decision time for initial decicion 6 (seconds)
 time7                         | Decision time for initial decicion 7 (seconds)
 time8                         | Decision time for initial decicion 8 (seconds)
 time9                         | Decision time for initial decicion 9 (seconds)
-\
 
 <sup>1</sup><sub>Falk, A., Becker, A., Dohmen, T. J., Huffman, D., & Sunde, U. (2016). *The Preference Survey Module: A Validated Instrument for Measuring Risk, Time, and Social Preferences* (SSRN Scholarly Paper No. 2725874). Social Science Research Network. https://doi.org/10.2139/ssrn.2725874
