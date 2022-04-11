@@ -78,7 +78,7 @@ indif8                        | Choice whether to sell decision 8 (1: yes, 0: no
 indif9                        | Choice whether to sell decision 9 (1: yes, 0: no)
 age                           | Participant's age (years)  
 gender                        | Participant's gender (1: female, 2: male)
-stud                          | Participant's study program
+study                         | Participant's study program
 study_coded                   | Participant's study program recoded (econ: Economics/Business, stem: STEM, ss: Social Sciences, NA: no response or no student)
 risk                          | Participant's self-reported inclination to take risks (1-10)<sup>1</sup>
 selfknow                      | Participant's hypothetical expectation of own performance percentile in knowledge task
