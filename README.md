@@ -85,14 +85,5 @@ selfknow                      | Participant's hypothetical expectation of own pe
 selfword                      | Participant's hypothetical expectation of own performance percentile in word task
 selfmatrices                  | Participant's hypothetical expectation of own performance percentile in logic task
 totalpayoff_inclfee           | Participant's total realized payoff including show-up fee (Euro)
-time1                         | Decision time for initial decicion 1 (seconds)
-time2                         | Decision time for initial decicion 2 (seconds)
-time3                         | Decision time for initial decicion 3 (seconds)
-time4                         | Decision time for initial decicion 4 (seconds)
-time5                         | Decision time for initial decicion 5 (seconds)
-time6                         | Decision time for initial decicion 6 (seconds)
-time7                         | Decision time for initial decicion 7 (seconds)
-time8                         | Decision time for initial decicion 8 (seconds)
-time9                         | Decision time for initial decicion 9 (seconds)
 
 <sup>1</sup><sub>Falk, A., Becker, A., Dohmen, T. J., Huffman, D., & Sunde, U. (2016). *The Preference Survey Module: A Validated Instrument for Measuring Risk, Time, and Social Preferences* (SSRN Scholarly Paper No. 2725874). Social Science Research Network. https://doi.org/10.2139/ssrn.2725874
