@@ -242,7 +242,7 @@ tab_types %>%
          gender_bias_upper     = min(pr_male_dec1_t1, pr_male_dec1_t2),
          gender_bias_upper_ult = min(pr_male_dec1_ult_t1, pr_male_dec1_ult_t2)) %>% 
   select(type, contains("gender")) %>% 
-  ungroup # explicit discriminators, lower bounds = 29.2%, 29.0%, upper bounds = 62.5% (ult: 59.4%), 61.3%
+  ungroup # explicit discriminators, lower bounds = 29.2%, 29.0%
           # explicit discriminators, upper bounds = 62.5% (ult: 59.4%), 61.3% (ult: 62.9%)
           # explicit non-discriminators, lower bound initial = -7.4%
           # explicit non-discriminators, lower bound ultimate = 2.9%

@@ -8,10 +8,10 @@ bargraph_choices <- function(data, choicevar, ylab, sep_by_treatment){
   }
   p <- data %>%
     group_by(decision_nr_plotting) %>% 
-    summarise(ratio_hire  = paste0(sum(!!as.symbol(choicevar)), "/", n()),
-              mean_hire   = mean(!!as.symbol(choicevar)),
-              ci_lower    = binom.confint(sum(!!as.symbol(choicevar)), n(), methods = "wilson")$lower,
-              ci_upper    = binom.confint(sum(!!as.symbol(choicevar)), n(), methods = "wilson")$upper) %>% 
+    summarise(ratio_hire = paste0(sum(!!as.symbol(choicevar)), "/", n()),
+              mean_hire  = mean(!!as.symbol(choicevar)),
+              ci_lower   = binom.confint(sum(!!as.symbol(choicevar)), n(), methods = "wilson")$lower,
+              ci_upper   = binom.confint(sum(!!as.symbol(choicevar)), n(), methods = "wilson")$upper) %>% 
     ggplot() + 
     geom_bar(aes(x = decision_nr_plotting, y = mean_hire),
              stat = "identity", col = "black", fill = "grey85") +
