@@ -64,22 +64,84 @@ df <- df %>%
 # create variable for consistent certificate preferences in decisions 1, 4, 5
 df <- df %>% 
   mutate(consistent = case_when(
-    treatment==1 ~ (dec1 == 1 & dec4 == 1 & dec5 == 1) | (dec1 == 0 & dec4 == 0 & dec5 == 0) | (indif1 & indif4 & indif5),
-    treatment==2 ~ (dec1 == 1 & dec4 == 0 & dec5 == 0) | (dec1 == 0 & dec4 == 1 & dec5 == 1) | (indif1 & indif4 & indif5)
+    treatment==1 ~ (dec1 == 1 & dec4 == 1 & dec5 == 1 & indif1 == 0 & indif4 == 0 & indif5 == 0) | # K > W
+                   (dec1 == 0 & dec4 == 0 & dec5 == 0 & indif1 == 0 & indif4 == 0 & indif5 == 0) | # W > K
+                   (indif1 == 1 & indif4 == 1 & indif5 == 1),                                      # ~
+    treatment==2 ~ (dec1 == 1 & dec4 == 0 & dec5 == 0 & indif1 == 0 & indif4 == 0 & indif5 == 0) | # W > K
+                   (dec1 == 0 & dec4 == 1 & dec5 == 1 & indif1 == 0 & indif4 == 0 & indif5 == 0) | # K > W
+                   (indif1 == 1 & indif4 == 1 & indif5 == 1)                                       # ~
   ))
 
 # create variable for consistent certificate preferences in decisions 1, 4, 5, 6-9
-# (i.e., choosing consistently between qualifications K, W and –)
+# (i.e., choosing consistently between qualifications K, W and -)
 df <- df %>% 
   mutate(consistent_all = case_when(
     
-    treatment==1 ~ (dec1 & dec4 & dec5 & !dec6 & dec8 & !dec7 & dec9) |    # K > W > -
-                   (!dec1 & !dec4 & !dec5 & !dec7 & dec9 & !dec6 & dec8) | # W > K > -
-                   (indif1 & indif4 & indif5 & indif6 & indif7 & indif8 & indif9),
+    treatment==1 ~ (dec1 & dec4 & dec5 & !dec6 & dec8 & !dec7 & dec9 &                     # K > W > -
+                    !indif1 & !indif4 & !indif5 & !indif6 & !indif8 & !indif7 & !indif9) |
+      
+                   (!dec1 & !dec4 & !dec5 & !dec7 & dec9 & !dec6 & dec8 &                  # W > K > -
+                    !indif1 & !indif4 & !indif5 & !indif6 & !indif8 & !indif7 & !indif9) |
+     
+                   (indif1 & indif4 & indif5 & !dec6 & dec8 & !dec7 & dec9 &               # W ~ K > - 
+                    !indif6 & !indif8 & !indif7 & !indif9)                               | 
+      
+                   (dec1 & dec4 & dec5 & !dec6 & dec8 &                                    # K > W ~ -
+                    !indif1 & !indif4 & !indif5 & !indif6 & !indif8 & indif7 & indif9)   |
+                   
+                   (!dec1 & !dec4 & !dec5 & !dec7 & dec9 &                                 # W > K ~ -
+                    !indif1 & !indif4 & !indif5 & indif6 & indif8 & !indif7 & !indif9)   |
+      
+                   (!dec1 & !dec4 & !dec5 & !dec7 & dec9 & dec6 & dec8 &                   # W > - > K
+                    !indif1 & !indif4 & !indif5 & !indif6 & !indif8 & !indif7 & !indif9) |
+      
+                   (dec1 & dec4 & dec5 & !dec6 & dec8 & dec7 & !dec9 &                     # K > - > W
+                   !indif1 & !indif4 & !indif5 & !indif6 & !indif8 & !indif7 & !indif9)  |
+      
+                   (dec1 & dec4 & dec5 & dec6 & !dec8 & dec7 & !dec9 &                     # - > K > W
+                    !indif1 & !indif4 & !indif5 & !indif6 & !indif8 & !indif7 & !indif9) |
+                   
+                   (!dec1 & !dec4 & !dec5 & dec7 & !dec9 & dec6 & !dec8 &                  # - > W > K
+                    !indif1 & !indif4 & !indif5 & !indif6 & !indif8 & !indif7 & !indif9) |
+      
+                   (indif1 & indif4 & indif5 & dec6 & !dec8 & dec7 & !dec9 &               # - > W ~ K
+                    !indif6 & !indif8 & !indif7 & !indif9)                               | 
+
+                   (indif1 & indif4 & indif5 & indif6 & indif7 & indif8 & indif9)          # ~
+      ,         
     
-    treatment==2 ~ (dec1 & !dec4 & !dec5 & !dec7 & dec9 & !dec6 & dec8) |  # W > K > -
-                   (!dec1 & dec4 & dec5 & !dec7 & dec9 & !dec6 & dec8) |   # K > W > -
-                   (indif1 & indif4 & indif5 & indif6 & indif7 & indif8 & indif9)
+    treatment==2 ~ (dec1 & !dec4 & !dec5 & !dec7 & dec9 & !dec6 & dec8 &                   # W > K > -
+                    !indif1 & !indif4 & !indif5 & !indif6 & !indif8 & !indif7 & !indif9) |
+      
+                   (!dec1 & dec4 & dec5 & !dec7 & dec9 & !dec6 & dec8 &                    # K > W > -
+                    !indif1 & !indif4 & !indif5 & !indif6 & !indif8 & !indif7 & !indif9) |  
+      
+                   (indif1 & indif4 & indif5 & !dec6 & dec8 & !dec7 & dec9 &               # W ~ K > - 
+                    !indif6 & !indif8 & !indif7 & !indif9)                               | 
+      
+                   (dec1 & !dec4 & !dec5 & !dec7 & dec9 &                                  # W > K ~ -
+                    !indif1 & !indif4 & !indif5 & indif6 & indif8 & !indif7 & !indif9)   |
+                  
+                   (!dec1 & dec4 & dec5 & !dec6 & dec8 &                                   # K > W ~ -
+                    !indif1 & !indif4 & !indif5 & !indif6 & !indif8 & indif7 & indif9)   |  
+      
+                   (dec1 & !dec4 & !dec5 & !dec7 & dec9 & dec6 & !dec8 &                   # W > - > K
+                    !indif1 & !indif4 & !indif5 & !indif6 & !indif8 & !indif7 & !indif9) |
+                   
+                   (!dec1 & dec4 & dec5 & dec7 & !dec9 & !dec6 & dec8 &                    # K > - > W
+                    !indif1 & !indif4 & !indif5 & !indif6 & !indif8 & !indif7 & !indif9) |  
+      
+                   (dec1 & !dec4 & !dec5 & dec7 & !dec9 & dec6 & !dec8 &                   # - > W > K
+                    !indif1 & !indif4 & !indif5 & !indif6 & !indif8 & !indif7 & !indif9) |
+                   
+                   (!dec1 & dec4 & dec5 & dec7 & !dec9 & dec6 & !dec8 &                    # - > K > W
+                    !indif1 & !indif4 & !indif5 & !indif6 & !indif8 & !indif7 & !indif9) |  
+      
+                   (indif1 & indif4 & indif5 & dec6 & !dec8 & dec7 & !dec9 &               # - > W ~ K
+                    !indif6 & !indif8 & !indif7 & !indif9)                               | 
+
+                   (indif1 & indif4 & indif5 & indif6 & indif7 & indif8 & indif9)          # ~
+      
   ))
 
 # create a long table with one decision per row and additional variables
@@ -217,7 +279,7 @@ dev.off()
 #############################
 
 # table: discrimination types and complex decision by type (initial and ultimate)
-tab_types <- df %>% 
+tab_types1 <- df %>% 
   group_by(treatment, type) %>% 
   summarise(frequency        = n(),
             pr_male_dec1     = mean(dec1),
@@ -227,6 +289,21 @@ tab_types <- df %>%
   ungroup %>% 
   pivot_wider(names_from = treatment, values_from = c(frequency, pr_male_dec1, pr_male_dec1_ult),
               names_prefix = "t")
+
+tab_types2 <- df %>% 
+  mutate(type = ifelse(type!="non", "explicit", "non")) %>% 
+  group_by(treatment, type) %>% 
+  summarise(frequency        = n(),
+            pr_male_dec1     = mean(dec1),
+            pr_male_dec1_ult = mean(dec1 & indif1==0) + mean(indif1==1)/2,
+            .groups = "drop_last") %>% 
+  mutate(frequency = frequency/sum(frequency)) %>% 
+  ungroup %>% 
+  pivot_wider(names_from = treatment, values_from = c(frequency, pr_male_dec1, pr_male_dec1_ult),
+              names_prefix = "t") %>% 
+  filter(type == "explicit")
+
+tab_types <- bind_rows(tab_types2, tab_types1)
 
 write(tab_types %>% 
         mutate(across(where(is.numeric), ~.x*100)) %>% 
@@ -298,11 +375,11 @@ dev.off()
 df %>% 
     filter(type == "non") %>% 
     group_by(treatment) %>% 
-    summarise(mean(consistent)) # pr(consistent|non-discrimination)[t1] = 78.9%, 
-                                # pr(consistent|non-discrimination)[t2] = 81.8%
+    summarise(mean(consistent)) # pr(consistent|non-discrimination)[t1] = 55.3%, 
+                                # pr(consistent|non-discrimination)[t2] = 54.5%
 df %>% 
   tabyl(consistent, type) %>% 
-  adorn_percentages("all") # pr(consistent & non-discrimination) = 24%
+  adorn_percentages("all") # pr(consistent & non-discrimination) = 16%
 
 # simple decisions among explicit discriminators
 df_long %>% 
@@ -362,12 +439,12 @@ write(tab_models, file = "tables/tab_models.tex")
 # consistency across all 9 decisions
 df %>% 
   tabyl(consistent_all, type) %>% 
-  adorn_percentages("all") # pr(consistent all & non) = 16%
+  adorn_percentages("all") # pr(consistent all & non) = 13%
 
 df %>% 
   tabyl(consistent_all, type, treatment) %>% 
-  adorn_percentages("all") # pr(consistent all & non)[t1] = 18%
-                           # pr(consistent all & non)[t2] = 15%
+  adorn_percentages("all") # pr(consistent all & non)[t1] = 14%
+                           # pr(consistent all & non)[t2] = 11%
 
 #############################
 #### results section 5.1 ####
@@ -375,26 +452,6 @@ df %>%
 
 # test for average gender difference in performance
 t.test(df_candidates$matrices ~ df_candidates$gender, var.equal = TRUE) # p-value = 0.82
-
-# table: performance distribution by gender
-tab_distr <- df_candidates %>% 
-  group_by(gender) %>% 
-  summarise(.n = n(),
-            across(.cols = matrices,
-                   .fns = list(mean = mean, 
-                               sd   = sd,
-                               min  = min,
-                               p25  = ~quantile(.x, 0.25),
-                               p50  = median, 
-                               p75  = ~quantile(.x, 0.75),
-                               max  = max),
-                   .names = ".{.fn}")) %>% 
-  pivot_longer(cols = contains("."), names_to = "statistic") %>% 
-  pivot_wider(names_from = gender) %>% 
-  mutate(across(where(is.numeric), ~round(.x, 2))) %>% 
-  kable(output = "latex")
-
-write(tab_distr, file = "tables/tab_distr.tex")
 
 # figure: density plot of performance by gender
 png("figures/candidates_performace_gender.png", width = 1600, height = 1400, res = 375)
@@ -510,35 +567,61 @@ results_all_datasets <- map_dfr(1:nrow(comb_w_k), function(x){
 
 tab_actual <- results_all_datasets %>% 
   group_by(decision, candidate_a, candidate_b) %>% 
-  summarise(across(where(is.numeric), mean), .groups = "drop") %>% 
-  mutate(across(where(is.numeric), ~round(.x, 3))) %>% 
-  kable(format = "latex")
+  summarise(across(where(is.numeric), mean), .groups = "drop") 
 
-write(tab_actual, file = "tables/tab_actual.tex")
+write(tab_actual %>% 
+      mutate(across(where(is.numeric), ~round(.x, 3))) %>% 
+      kable(format = "latex"), file = "tables/tab_actual.tex")
 
 # number of expected earnings maximizers
+should_choose <- tab_actual %>% 
+  filter(grepl("D", decision)) %>% 
+  mutate(should_choose =
+           case_when(
+             (pr_b_better > pr_a_better) & (pr_b_better > 31/60) ~ 1, # choose male (or knowledge in decisions 4, 5)
+             (pr_a_better > pr_b_better) & (pr_a_better > 31/60) ~ 0, # choose female (or word in decisions 4, 5)
+             TRUE ~ NA_real_                                          # choose sell
+           )) %>% 
+  pull(should_choose)
 
-# [tba]
+df_long %>% 
+  rowwise %>% 
+  mutate(maximizes = case_when(
+    decision_nr == 1 & treatment == 1 ~ ifelse(!is.na(should_choose[1]), dec == should_choose[1], indif==1),
+    decision_nr == 1 & treatment == 2 ~ ifelse(!is.na(should_choose[2]), dec == should_choose[2], indif==1),
+    
+    decision_nr == 2 ~ ifelse(!is.na(should_choose[3]),  dec == should_choose[3]  & indif==0, indif==1),
+    decision_nr == 3 ~ ifelse(!is.na(should_choose[4]),  dec == should_choose[4]  & indif==0, indif==1),
+    decision_nr == 4 ~ ifelse(!is.na(should_choose[5]),  dec == should_choose[5]  & indif==0, indif==1),
+    decision_nr == 5 ~ ifelse(!is.na(should_choose[6]),  dec == should_choose[6]  & indif==0, indif==1),
+    decision_nr == 6 ~ ifelse(!is.na(should_choose[7]),  dec == should_choose[7]  & indif==0, indif==1),
+    decision_nr == 7 ~ ifelse(!is.na(should_choose[8]),  dec == should_choose[8]  & indif==0, indif==1),
+    decision_nr == 8 ~ ifelse(!is.na(should_choose[9]),  dec == should_choose[9]  & indif==0, indif==1),
+    decision_nr == 9 ~ ifelse(!is.na(should_choose[10]), dec == should_choose[10] & indif==0, indif==1)
+  )) %>% 
+  group_by(participant) %>% 
+  summarise(maximizing_choices = sum(maximizes), .groups = "drop") %>% 
+  arrange(desc(maximizing_choices)) # no participant has more than 7 out of 9 maximizing choices
 
 # certificate preferences among non-discriminators
 df_long %>% 
-  filter(type == "non" ,
+  filter(type == "non" & consistent,
          decision_nr %in% c(4,5)) %>% 
-  summarise(mean(dec==0)) # pr(word|non-discrimination) = 63%
+  summarise(mean(dec==0)) # pr(word|non-discrimination) = 64%
 
 df_long %>% 
-  filter(type == "non",
+  filter(type == "non" & consistent,
          decision_nr %in% c(4,5)) %>% 
   group_by(treatment) %>% 
-  summarise(mean(dec==0)) # initial pr(word|non-discrimination)[t1] = 67.1%
-                          # initial pr(word|non-discrimination)[t2] = 59.1%
+  summarise(mean(dec==0)) # initial pr(word|non-discrimination)[t1] = 64.3%
+                          # initial pr(word|non-discrimination)[t2] = 63.9%
 
 df_long %>% 
-  filter(type == "non",
+  filter(type == "non" & consistent,
          decision_nr %in% c(4,5)) %>% 
   group_by(treatment) %>% 
-  summarise(mean(dec==0 & indif==0) + mean(indif==1)/2) # ultimate pr(word|non-discrimination)[t1] = 63.2%
-                                                        # ultimate pr(word|non-discrimination)[t2] = 56.8%
+  summarise(mean(dec==0 & indif==0) + mean(indif==1)/2) # ultimate pr(word|non-discrimination)[t1] = 61.9%
+                                                        # ultimate pr(word|non-discrimination)[t2] = 63.9%
 
 ##########################
 #### results appendix ####
@@ -647,6 +730,26 @@ df_candidates %>%
   labs(x = "",
        y = "Random pairings in which\nmale outperforms female")
 dev.off()
+
+# table: performance distribution by gender
+tab_distr <- df_candidates %>% 
+  group_by(gender) %>% 
+  summarise(.n = n(),
+            across(.cols = matrices,
+                   .fns = list(mean = mean, 
+                               sd   = sd,
+                               min  = min,
+                               p25  = ~quantile(.x, 0.25),
+                               p50  = median, 
+                               p75  = ~quantile(.x, 0.75),
+                               max  = max),
+                   .names = ".{.fn}")) %>% 
+  pivot_longer(cols = contains("."), names_to = "statistic") %>% 
+  pivot_wider(names_from = gender) %>% 
+  mutate(across(where(is.numeric), ~round(.x, 2))) %>% 
+  kable(output = "latex")
+
+write(tab_distr, file = "tables/tab_distr.tex")
 
 ############################
 #### save sessionInfo() ####
