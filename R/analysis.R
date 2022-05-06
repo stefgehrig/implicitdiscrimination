@@ -1,14 +1,14 @@
 # load libraries
-library(tidyverse)
-library(janitor)
-library(estimatr)
-library(openxlsx)
-library(modelsummary)
-library(kableExtra)
-library(ggsankey)
-library(patchwork)
-library(binom)
-library(extrafont)
+library(tidyverse)    # CRAN v1.3.1    
+library(janitor)      # CRAN v2.1.0      
+library(estimatr)     # CRAN v0.30.6     
+library(binom)        # CRAN v1.1-1
+library(openxlsx)     # CRAN v4.2.5     
+library(modelsummary) # CRAN v0.10.0 
+library(kableExtra)   # CRAN v1.3.4   
+library(ggsankey)     # [github::davidsjoberg/ggsankey] v0.0.99999       
+library(patchwork)    # CRAN v1.1.1    
+library(extrafont)    # CRAN v0.18    
 loadfonts()
 
 # read tables
@@ -755,3 +755,4 @@ write(tab_distr, file = "tables/tab_distr.tex")
 #### save sessionInfo() ####
 ############################
 write(pander::pander_return(sessionInfo()), file = "R/session_info.md")
+
